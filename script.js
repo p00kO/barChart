@@ -6,11 +6,13 @@ const options = {
                   barSpacing: 5,
                   barLabelColor: "red",                  
                   barLabelPosition: 'bottom',                 
-                  font: {size: 12, color: "black"},
+                  font: {size: 20, color: "black"},
                   title: "Title of the Graph",
                   titleFontSize: '24px',
                   titleColor: 'black',
-                  xAxisTitle: 'Total Output'
+                  xAxisTitle: 'Total Output',
+                  xMin : 0,
+                  xMax: 70
                 };
 let element = $("#graph");
 

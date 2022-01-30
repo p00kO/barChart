@@ -23,11 +23,21 @@ const drawBarChart = function(data, option, element){
   
   // 1) Setup a div of size passed by user
 
+
+
+
   let base = $('<div></<div>');
   let graph = $('<div></div>');
+
+  const titleOffsety = option.font.size; // size of title...
+  const xAxisOffsety = (10+20+25); // ticks + text + title
+
+  const graphHeight = option.height - titleOffsety - xAxisOffsety;
+
+
   graph.css({'width' : option.width - '80px', 
              'margin-left' : '80px',
-             'height' : option.height,             
+             'height' : graphHeight,             
              'background': "repeating-linear-gradient( to right, #ffffff, #ffffff 48px,rgb(210,255,255) 25px,rgb(210,255,255) 50px)"
         });
 
@@ -49,29 +59,22 @@ const drawBarChart = function(data, option, element){
   elem3.css({'float':'left',
               'background' : 'black', 
               'width' : '2px',
-              'height' : option.height,
+              'height' : graphHeight,
               'margin-left' : '20px'
             });
   
-  // let elem4 = $('<div></div>');
-  // elem4.css({ 'color': 'black',
-  //             'float':'left',
-  //             'height': option.height,
-  //             'width' : '5px',              
-  //             'background': "repeating-linear-gradient( to top, #ffffff, #ffffff 48px,#000000 25px,#000000 50px)"
-  //           });
-
   let elem4 = $('<div></div>');
   elem4.css({  'float':'left',
                'width' : '60px',
-               'height': option.height
+               'height': graphHeight
               });
 
   for(let i=0; i<data.length; i++){
     let div = $("<div>" + 'jammy' + "</div>");
     div.css({'margin-top': '5px',
             'width': '60px',
-            'height' : (option.height - data.length*5)/data.length
+            'text-align' : 'center',
+            'height' : (graphHeight - data.length*5)/data.length
             });
     elem4.append(div);
   }
@@ -79,18 +82,10 @@ const drawBarChart = function(data, option, element){
 
   for(let i=0; i<data.length; i++){
     let div = $("<div>" + data[i] + "</div>");
-    div.css(buildHorzRect(data[i] * 10, (option.height - data.length*5)/data.length));
+    div.css(buildHorzRect(data[i] * 10, (graphHeight - data.length*5)/data.length));
     graph.append(div);
   }
 
-  // let elem5 = $('<div>Y axis</div>');
-  // elem5.css({ 'float':'left',
-  //             'writing-mode': 'vertical-lr',
-  //             'text-orientation' : 'upright',              
-  //             'text-align' : 'center',
-  //             'width' : '20px', 
-  //             'height' : option.height
-  //           });
 
   let elem6 = $('<div>' + option.xAxisTitle + '</div>');
   elem6.css({ 'width' : option.width-'20px',
@@ -119,14 +114,17 @@ const drawBarChart = function(data, option, element){
     elem7.append(div);
   }
 
-  let top = $('<h2>' + option.title + '</h2>');
+  let top = $('<div>' + option.title + '</div>');
   top.css({ 
     'text-align' : 'center',        
+    'font-size' : option.font.size,
+    'font-weight' : 'bold'
   });
   top.on('click', function(){
     let newTitle = prompt("Please enter new title: ", option.title);
     option.title = newTitle;
     top.text(newTitle);
+    
   });
 
   element.css({
@@ -134,6 +132,8 @@ const drawBarChart = function(data, option, element){
           'height' : option.height,
           'border-style' : 'solid'
   });
+
+// Text width: $('#text').width();
 
   graph.append(elem1);  
   graph.append(elem2);

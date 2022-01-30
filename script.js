@@ -1,14 +1,16 @@
-const data = [4,7,3,9,15];
+const data = [17,2,1,26,7,9,35,65]; // --> [{value: 3, label: "January"},{value: 70, label: "February"}]
 const options = {
-                  width: 500,
+                  width: 800,
                   height: 300,
                   barColor: "black",
-                  labelColor: "red",
                   barSpacing: 5,
-                  x_axis: {title: "Years", label: "bottom"},
-                  y_axis: {title: "Production", label: top},
+                  barLabelColor: "red",                  
+                  barLabelPosition: 'bottom',                 
                   font: {size: 12, color: "black"},
-                  title: "Title of the Graph"
+                  title: "Title of the Graph",
+                  titleFontSize: '24px',
+                  titleColor: 'black',
+                  xAxisTitle: 'Total Output'
                 };
 let element = $("#graph");
 

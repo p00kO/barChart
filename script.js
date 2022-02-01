@@ -1,18 +1,23 @@
-const data = [17,2,1,26,7,9,35,65]; // --> [{value: 3, label: "January"},{value: 70, label: "February"}]
+const data = [ {'value': 17,'label': 'Tim' },
+               {'value': 2, 'label': 'Larry'},
+               {'value' : 1, 'label' : 'Cledus'},
+               {'value' : 26, 'label': 'Ronny'},
+               {'value' : 7, 'label':'Cremi'},
+               {'value' : 9, 'label' : 'Koko'},
+               {'value': 30, 'label': 'PeterPo'}
+              ]; 
 const options = {
-                  width: 800,
+                  width: 600,
                   height: 300,
                   barColor: "black",
                   barSpacing: 5,
                   barLabelColor: "red",                  
-                  barLabelPosition: 'bottom',                 
-                  font: {size: 20, color: "black"},
+                  barLabelPosition: 'center',                 
+                  font: {size: 18, color: "black"},
                   title: "Title of the Graph",
-                  titleFontSize: '24px',
-                  titleColor: 'black',
-                  xAxisTitle: 'Total Output',
-                  xMin : 0,
-                  xMax: 70
+                  xAxisTitle: 'Total Output',                  
+                  xMax: 50,
+                  xsteps: 10
                 };
 let element = $("#graph");
 

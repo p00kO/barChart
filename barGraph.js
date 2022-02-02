@@ -11,21 +11,118 @@ const drawBarChart = function(data, option, element){
       .reduce((cur, acc) => acc + cur) * fontSize);
   };
 
-  const buildHorzRect= function(w, h){
-    return { 'background': 'green',             
-             'color': 'rgb(255,255,255)',             
-             'margin-top': '5px',
-             'height': h,
-             'width': w,
-             'text-align': 'bottom',
-             'vertical-align': 'middle',
-             'line-height': h + 'px'
-            };
-  }
+  const buildElement = function(w,h, val = ''){
+    let elem = $('<div>' +val+ '</div>');
+    elem.css({'width' : w,
+              'height' : h
+            });
+    return elem;
+  };
 
-  const buildXaxis = function(){};
- 
-  // 1) Setup a div of size passed by user
+  const buildTitle = function(){
+    // title box:
+    let top = $('<div>' + option.title + '</div>');
+    top.css({ 
+      'text-align' : 'center',        
+      'font-size' : option.font.size,
+      'font-weight' : 'bold'
+    });
+    // click for the title box:
+    top.on('click', function(){
+      let newTitle = prompt("Please enter new title: ", option.title);      
+      if(newTitle != null) option.title = newTitle;      
+      top.text(option.title);    
+    });
+    return top;
+  };
+
+  const buildXaxis = function(a, b, c, max, stepWidth){  
+    // x-axis line:
+    let elem1 = buildElement(option.width - (20+max), 2)
+                  .css({'background' : 'black'});
+    // x-axis ticks:                  
+    let elem2 = buildElement(option.width - (20+max), 5)
+                  .css({'color': 'black',
+                        'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + a + ",#000000 " + b + ",#000000 " + c+ ")"
+                      });    
+    // x-axis title:
+    let elem3 = buildElement(option.width-20, 20 , option.xAxisTitle)
+                  .css({'margin-top' : '5px',
+                        'margin-left' : '20px',                
+                        'text-align' : 'center'              
+                      });    
+    // x-axis numbers:
+    let elem4 = buildElement(option.width-(max+20), 20)
+    elem4.css({'margin-left' : -stepWidth/2,               
+               'margin-top' : '2px'
+              });    
+    for(let i=0; i<option.xsteps; i++){
+      let char = stepSize*i;
+      let div = buildElement(stepWidth, 20, char)      
+                .css({ 'float':'left',                
+                       'text-align' : 'center',      
+                    });
+      elem4.append(div);
+    };
+    let xAxis = $('<div></div>');
+    xAxis.append(elem1);
+    xAxis.append(elem2);
+    xAxis.append(elem4);
+    xAxis.append(elem3);
+
+    return xAxis;
+  };
+
+  const buildYaxis = function(graphHeight, max){
+  // y-axis line
+    let elem3 = buildElement(2, graphHeight)
+                .css({'float':'left',
+                      'background' : 'black', 
+                      'margin-left' : '20px'
+                     });
+  //labels for y-axis
+    let elem4 = buildElement(max,graphHeight)
+                .css({'float':'left'});
+  // labels of the each y bar element
+    for(let i=0; i<data.length; i++){
+      let div = buildElement(measureText(data[i]['label'], 16), (graphHeight -  
+                             data.length*5)/data.length, 
+                             data[i]['label'] )      
+                    .css({'margin-top': '5px',            
+                          'text-align' : 'center',
+                          'font-size' : '16px'
+                        });
+      elem4.append(div);    
+    }
+    let yAxis = $('<div></div>');
+    yAxis.append(elem4);
+    yAxis.append(elem3);
+    return yAxis;
+  }
+  
+  const buildGraph = function(max, graphHeight, a, b, c, stepWidth, stepSize, graphHeight){
+    // set background lines:
+    let graph = buildElement( option.width - (20 + max), graphHeight)
+                .css({'margin-left' : (20 + max),
+                      'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + a + "," + option.backgroundBarColor + " " + b + "," + option.backgroundBarColor + " " + c + ")"
+              });
+
+    // building the horizontal graph bars
+    for(let i=0; i<data.length; i++){
+      let h = (graphHeight - data.length*5)/data.length;
+      let div = buildElement(Math.floor(data[i]['value']* stepWidth/stepSize),
+                             h, data[i]['value'] )
+                        .css({'background': option.barColor,
+                             'color': option.barLabelColor,
+                             'margin-top': option.barSpacing,
+                             'text-align': option.barLabelPosition,
+                             'vertical-align': 'middle',
+                             'line-height': h + 'px'
+                            });
+      graph.append(div);
+    };
+    return graph;
+  };
 
   // Horizontal Element scaling:
   let max = 0;  
@@ -35,145 +132,33 @@ const drawBarChart = function(data, option, element){
       max = dum;
     }    
   }
-
-  let base = $('<div></<div>');
-  let graph = $('<div></div>');
-
+  
   // Vertical element scaling:
   const titleOffsety = option.font.size; // size of title...
   const xAxisOffsety = (10+20+25); // ticks + text + title
   const graphHeight = option.height - titleOffsety - xAxisOffsety;
+  let stepSize = Math.floor(option.xMax/option.xsteps);
+  let stepWidth = Math.floor((option.width - max - 20)/option.xsteps); 
 
-  // x-axis ticks:
   let k = Math.floor((option.width - (20 + max))/option.xsteps);
   let a = (k-2) + "px";
   let b = Math.floor(k/2) + "px";
   let c = k + "px";
-  let stepSize = Math.floor(option.xMax/option.xsteps);
-  let stepWidth = Math.floor((option.width - max - 20)/option.xsteps); 
-// Main graph with repeating lines in background:
-  graph.css({'width' : option.width - (20 + max), 
-             'margin-left' : (20 + max),
-             'height' : graphHeight,             
-             'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + a + ",rgb(210,255,255) " + b + ",rgb(210,255,255) " + c + ")"
-        });
-
-// x-axis line  
-  let elem1 = $('<div></div>');
-  
-  elem1.css({ 'background' : 'black',       
-              'width': option.width - (20+max),
-              'height' : '2px'              
-            });
-            
-
-  let elem2 = $('<div></div>');
-  elem2.css({ 'color': 'black',
-              'width': option.width - (20+max),
-              'height' : '5px',              
-              'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + a + ",#000000 " + b + ",#000000 " + c+ ")"
-            });
-
-  // y-axis line
-  let elem3 = $('<div></div>');
-  elem3.css({'float':'left',
-              'background' : 'black', 
-              'width' : '2px',
-              'height' : graphHeight,
-              'margin-left' : '20px'
-            });
-
-  // element to hold labels for y-axis
-  let elem4 = $('<div></div>');
-  elem4.css({  'float':'left',
-               'width' : max,
-               'height': graphHeight
-              });
-
-  // labels of the each y bar element
-  for(let i=0; i<data.length; i++){
-    let div = $("<div>" + data[i]['label'] + "</div>");
-    div.css({'margin-top': '5px',
-            'width': measureText(data[i]['label'], 16),
-            'text-align' : 'center',
-            'font-size' : '16px',
-            'height' : (graphHeight - data.length*5)/data.length
-            });
-    elem4.append(div);
-  }
-
-  // building the horizontal graph bars
-  for(let i=0; i<data.length; i++){
-    let div = $("<div>" + data[i]['value'] + "</div>");
-    div.css(buildHorzRect(Math.floor(data[i]['value']* stepWidth/stepSize), (graphHeight - data.length*5)/data.length));
-    graph.append(div);
-  }
-
-  // x-axis title:
-  let elem6 = $('<div>' + option.xAxisTitle + '</div>');
-  elem6.css({ 'width' : option.width-'20px',
-              'margin-top' : '5px',
-              'margin-left' : '20px',
-              'height' : '20px',
-              'text-align' : 'center'              
-            });
-  // element to the numbers for the axis:
-  let elem7 = $('<div></div>');
-  elem7.css({'width' : option.width-(max+20),
-             'margin-left' : (max+20)-stepWidth/2,
-             'height' : '20px',
-             'margin-top' : '2px'
-            });
-
-  // Axis numbers added to divs for positioning:
-
-  for(let i=0; i<option.xsteps; i++){
-    let char = stepSize*i;
-    let div = $("<div>" + char + "</div>");
-    div.css({
-      'float':'left',
-      'width' : stepWidth,
-      'height' : '20px',
-      'text-align' : 'center',      
-    });
-    elem7.append(div);
-  };
-
-  // title box:
-  let top = $('<div>' + option.title + '</div>');
-  top.css({ 
-    'text-align' : 'center',        
-    'font-size' : option.font.size,
-    'font-weight' : 'bold'
-  });
-  // click for the title box:
-  top.on('click', function(){
-    let newTitle = prompt("Please enter new title: ", option.title);
-    option.title = newTitle;
-    top.text(newTitle);
-    
-  });
 
   // Global div:
   element.css({
           'width'  : option.width,
-          'height' : option.height,
-          //'border-style' : 'solid'
+          'height' : option.height          
   });
-
-// Text width: $('#text').width();
-// Adding elements (order is important
-  graph.append(elem1);  
-  graph.append(elem2);
-  // base.append(elem5);
-  base.append(elem4);
-  base.append(elem3);
-  base.append(graph);
-  element.append(top);
+  let base = $('<div></<div>');
+  base.append(buildYaxis(graphHeight, max)); 
+  base.append( 
+        buildGraph(max, graphHeight, a, b, c, stepWidth, stepSize, graphHeight)
+        .append(
+            buildXaxis(a,b,c,max,stepWidth)
+        )
+      );
+  element.append(buildTitle());
   element.append(base);
-  element.append(elem7);
-  element.append(elem6);
 
-
-  
 };

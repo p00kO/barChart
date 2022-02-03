@@ -92,12 +92,12 @@ const drawBarChart = function(data, option, element){
   // labels of the each y bar element
     let h = Math.floor(graphHeight/data.length)
     for(let i=0; i<data.length; i++){
-      let div = buildElement(measureText(data[i]['label'], option.graphFont),     
-                      h , 
-                       data[i]['label'] )
+      let div = buildElement(measureText(data[i]['barLabel'], option.graphFont),     
+                      h , data[i]['barLabel'] )
                     .css({'text-align' : 'center',
                           'line-height': h + 'px',
                           'vertical-align': 'middle',
+                          'color' : option.yLableColor,
                           'font-size' : option.graphFont
                         });
       elem4.append(div);    
@@ -121,19 +121,30 @@ const drawBarChart = function(data, option, element){
       let div = $('<div></div>');
       if(i%3 === 1){                
         let j = Math.floor(i/3);
-        div = buildElement(Math.floor(data[j]['value']* stepWidth/stepSize),
-                             h, data[j]['value'] )
-                        .css({'background': option.barColor,
-                             'color': option.barLabelColor,
+        let sum = 0;
+        data[j]['value'].forEach(function(item){
+          sum += item;
+        });
+        let bar = buildElement(Math.floor(sum * stepWidth/stepSize)
+                                    ,h)
+                    .css({'display':'flex'});
+        let offset = 0;
+        data[j]['value'].forEach(function(item, index){
+          let partdiv = buildElement(Math.floor(item * stepWidth/stepSize),
+                             h, item )
+                      .css({'background': data[j]['color'][index],
+                             'color': data[j]['labelColor'][index],
                              'text-align': option.barLabelPosition,
-                             'vertical-align': 'middle',
+                             'vertical-align': 'middle',                    
                              'line-height': h + 'px',
-                             'font-size' : option.graphFont
-                            });
-        
+                             'font-size' : option.graphFont,          
+                        });
+          bar.append(partdiv);
+        });        
+        div.append(bar);
       }else {        
-        div = buildElement(option.width - (20 + max),
-        option.barSpacing/2);    
+         div = buildElement(option.width - (20 + max),
+         option.barSpacing/2);    
       }     
       
       graph.append(div);
@@ -144,7 +155,7 @@ const drawBarChart = function(data, option, element){
   // Horizontal Element scaling:
   let max = 0;  
   for(let i=0; i<data.length; i++){
-    dum =measureText(data[i]['label'], option.graphFont);
+    dum =measureText(data[i]['barLabel'], option.graphFont);
     if(dum > max){
       max = dum;
     }    

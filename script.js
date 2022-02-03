@@ -7,16 +7,18 @@ const data = [ {'value': 17,'label': 'Tim' },
                {'value': 24, 'label': 'PeterPo'}
               ]; 
 const options = {
-                  width: 600,
-                  height: 350,
+                  width: 800,
+                  height: 500,
                   barColor: "black",
-                  barSpacing: 5,
+                  barSpacing: 15,
+                  graphFont: 9,
                   barLabelColor: "red",                  
                   barLabelPosition: 'center',
                   backgroundBarColor: 'rgb(100,255,255)',
-                  font: {size: 24, color: "black"},
+                  titleFont: {size: 24, color: "black"},
                   title: "Title of the Graph",
-                  xAxisTitle: 'Average thank you\'s per day',                  
+                  xAxisTitle: 'Average thank you\'s per day',
+                  xAxisTitleFont: {size: 24, color: "black"},                  
                   xMax: 70,
                   xsteps: 6
                 };

@@ -24,7 +24,7 @@ const drawBarChart = function(data, option, element){
     let top = $('<div>' + option.title + '</div>');
     top.css({ 
       'text-align' : 'center',        
-      'font-size' : option.font.size,
+      'font-size' : option.titleFont.size,
       'font-weight' : 'bold'
     });
     // click for the title box:
@@ -39,28 +39,33 @@ const drawBarChart = function(data, option, element){
   const buildXaxis = function(a, b, c, max, stepWidth){  
     // x-axis line:
     let elem1 = buildElement(option.width - (20+max), 2)
-                  .css({'background' : 'black'});
+                  .css({'background' : 'black',
+                        'margin-left' : max + 20
+                       });
     // x-axis ticks:                  
     let elem2 = buildElement(option.width - (20+max), 5)
                   .css({'color': 'black',
+                        'margin-left' : max + 20,
                         'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + a + ",#000000 " + b + ",#000000 " + c+ ")"
                       });    
     // x-axis title:
-    let elem3 = buildElement(option.width-20, 20 , option.xAxisTitle)
-                  .css({'margin-top' : '5px',
-                        'margin-left' : '20px',                
-                        'text-align' : 'center'              
+    let elem3 = buildElement(option.width- (20+max), 20 , option.xAxisTitle)
+                  .css({'margin-top' : '5px',                                    
+                        'text-align' : 'center',
+                        'margin-left' : max + 20,
+                        'font-size' : option.graphFont
                       });    
     // x-axis numbers:
     let elem4 = buildElement(option.width-(max+20), 20)
-    elem4.css({'margin-left' : -stepWidth/2,               
-               'margin-top' : '2px'
+    elem4.css({'margin-top' : '2px',
+               'margin-left' : max + 20 - (option.graphFont / 2)
               });    
     for(let i=0; i<option.xsteps; i++){
       let char = stepSize*i;
       let div = buildElement(stepWidth, 20, char)      
                 .css({ 'float':'left',                
-                       'text-align' : 'center',      
+                       'text-align' : 'left',
+                       'font-size' : option.graphFont      
                     });
       elem4.append(div);
     };
@@ -82,15 +87,18 @@ const drawBarChart = function(data, option, element){
                      });
   //labels for y-axis
     let elem4 = buildElement(max,graphHeight)
-                .css({'float':'left'});
+                .css({'float':'left',                         
+                    });
   // labels of the each y bar element
+    let h = Math.floor(graphHeight/data.length)
     for(let i=0; i<data.length; i++){
-      let div = buildElement(measureText(data[i]['label'], 16), (graphHeight -  
-                             data.length*5)/data.length, 
-                             data[i]['label'] )      
-                    .css({'margin-top': '5px',            
-                          'text-align' : 'center',
-                          'font-size' : '16px'
+      let div = buildElement(measureText(data[i]['label'], option.graphFont),     
+                      h , 
+                       data[i]['label'] )
+                    .css({'text-align' : 'center',
+                          'line-height': h + 'px',
+                          'vertical-align': 'middle',
+                          'font-size' : option.graphFont
                         });
       elem4.append(div);    
     }
@@ -108,17 +116,26 @@ const drawBarChart = function(data, option, element){
               });
 
     // building the horizontal graph bars
-    for(let i=0; i<data.length; i++){
-      let h = (graphHeight - data.length*5)/data.length;
-      let div = buildElement(Math.floor(data[i]['value']* stepWidth/stepSize),
-                             h, data[i]['value'] )
+    let h = Math.floor((graphHeight - data.length*option.barSpacing)/data.length);    
+    for(let i=0; i<data.length*3; i++){
+      let div = $('<div></div>');
+      if(i%3 === 1){                
+        let j = Math.floor(i/3);
+        div = buildElement(Math.floor(data[j]['value']* stepWidth/stepSize),
+                             h, data[j]['value'] )
                         .css({'background': option.barColor,
                              'color': option.barLabelColor,
-                             'margin-top': option.barSpacing,
                              'text-align': option.barLabelPosition,
                              'vertical-align': 'middle',
-                             'line-height': h + 'px'
+                             'line-height': h + 'px',
+                             'font-size' : option.graphFont
                             });
+        
+      }else {        
+        div = buildElement(option.width - (20 + max),
+        option.barSpacing/2);    
+      }     
+      
       graph.append(div);
     };
     return graph;
@@ -127,14 +144,14 @@ const drawBarChart = function(data, option, element){
   // Horizontal Element scaling:
   let max = 0;  
   for(let i=0; i<data.length; i++){
-    dum =measureText(data[i]['label'], 16);
+    dum =measureText(data[i]['label'], option.graphFont);
     if(dum > max){
       max = dum;
     }    
   }
   
   // Vertical element scaling:
-  const titleOffsety = option.font.size; // size of title...
+  const titleOffsety = option.titleFont.size; // size of title...
   const xAxisOffsety = (10+20+25); // ticks + text + title
   const graphHeight = option.height - titleOffsety - xAxisOffsety;
   let stepSize = Math.floor(option.xMax/option.xsteps);
@@ -153,12 +170,10 @@ const drawBarChart = function(data, option, element){
   let base = $('<div></<div>');
   base.append(buildYaxis(graphHeight, max)); 
   base.append( 
-        buildGraph(max, graphHeight, a, b, c, stepWidth, stepSize, graphHeight)
-        .append(
-            buildXaxis(a,b,c,max,stepWidth)
-        )
+        buildGraph(max, graphHeight, a, b, c, stepWidth, stepSize, graphHeight)        
       );
   element.append(buildTitle());
   element.append(base);
+  element.append(buildXaxis(a,b,c,max,stepWidth));
 
 };

@@ -6,22 +6,23 @@ const data = [ {'value': [17,1,3],'color' :['blue', '#ff2277', 'orange'],'labelC
                {'value' : [9,9,3], 'color' :['blue', '#ff2277', 'orange'], 'labelColor' :['black', 'black','black'], 'barLabel' : 'Koko'},
                {'value': [24,22,3], 'color' :['blue', '#335533', '#335533'], 'labelColor' :['black', '#001100', 'black'], 'barLabel': 'PeterPo'}
               ]; 
+
 const options = {
-                  width: 800,
+                  width: 600,
                   height: 300,
                   barColor: "blue",
                   barSpacing: 4,
-                  graphFont: 20,
+                  graphFont: 8,
                   barLabelColor: "red",                  
                   barLabelPosition: 'center',
                   yLableColor: 'green',
                   backgroundBarColor: 'rgb(100,255,255)',
                   titleFont: {size: 24, color: "black"},
-                  title: "Title of the Graph",
+                  title: "Title of the Graph",                  
                   xAxisTitle: 'Average thank you\'s per day',
                   xAxisTitleFont: {size: 24, color: "black"},                  
                   xMax: 60,
-                  xsteps: 12
+                  xsteps: 6
                 };
 let element = $("#graph");
 
@@ -31,7 +32,5 @@ let element = $("#graph");
 //                {'value' : [26], 'color' :['orange', '#ff2277', 'orange'], 'labelColor' :['black', 'black', 'black'], 'barLabel': 'Ronny'},
 //                {'value' : [31], 'color' :['blue', '#999911', 'orange'], 'labelColor' :['grey', 'black', 'black'], 'barLabel':'Cremi'},               
 //               ];
-
-
 
 drawBarChart(data, options, element);

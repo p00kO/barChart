@@ -1,5 +1,29 @@
 const drawBarChart = function(data, option, element){  
-  
+
+  const yAxisSpacing = 20;  
+  const xAxisTicksHeight = 10;
+  const xAxisTextHeight = 20;
+  const xAxisTitleHeight = 25;
+  const tickLineWidth = 2;  
+  const tickLineLength = 5;
+  const axisLineThickness = 2;  
+// Left Y labels:
+  let maxWordLength = 0;  
+  for(let i=0; i<data.length; i++){
+    dum =measureText(data[i]['barLabel'], option.graphFont);
+    if(dum > maxWordLength){
+      maxWordLength = dum;
+    }    
+  }    
+  const titleOffsety = option.titleFont.size; 
+  const xAxisOffsety = (xAxisTicksHeight + xAxisTextHeight + xAxisTitleHeight);
+  const graphHeight = option.height - titleOffsety - xAxisOffsety;
+  let stepSize = Math.floor(option.xMax/option.xsteps);
+  let stepWidth = Math.floor((option.width - maxWordLength - yAxisSpacing)/option.xsteps);   
+  // Array for CSS repearing-linear-gradient used to buld ticks:  
+  const ticks = [(stepWidth-tickLineWidth) + "px",  
+                 Math.floor(stepWidth/2) + "px", 
+                 stepWidth+ "px"];   
   // Straight from StackOverflow --> Estimates the px width of a string based on
   // statistical measurments of the width of each asci char.
   function measureText(str, fontSize = 10) {
@@ -36,33 +60,36 @@ const drawBarChart = function(data, option, element){
     return top;
   };
 
-  const buildXaxis = function(a, b, c, max, stepWidth){  
+  const buildXaxis = function(){  
+    
+    const leftSideOffset = yAxisSpacing + maxWordLength;
+    
     // x-axis line:
-    let elem1 = buildElement(option.width - (20+max), 2)
+    let elem1 = buildElement(option.width - leftSideOffset, axisLineThickness)
                   .css({'background' : 'black',
-                        'margin-left' : max + 20
+                        'margin-left' : leftSideOffset
                        });
     // x-axis ticks:                  
-    let elem2 = buildElement(option.width - (20+max), 5)
+    let elem2 = buildElement(option.width - leftSideOffset, tickLineLength)
                   .css({'color': 'black',
-                        'margin-left' : max + 20,
-                        'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + a + ",#000000 " + b + ",#000000 " + c+ ")"
+                        'margin-left' : leftSideOffset,
+                        'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + ticks[0] + ",#000000 " + ticks[1] + ",#000000 " + ticks[2] + ")"
                       });    
     // x-axis title:
-    let elem3 = buildElement(option.width- (20+max), 20 , option.xAxisTitle)
-                  .css({'margin-top' : '5px',                                    
+    let elem3 = buildElement(option.width - leftSideOffset, xAxisTitleHeight , option.xAxisTitle)
+                  .css({'margin-top' : tickLineLength,                                    
                         'text-align' : 'center',
-                        'margin-left' : max + 20,
+                        'margin-left' : leftSideOffset,
                         'font-size' : option.graphFont
                       });    
     // x-axis numbers:
-    let elem4 = buildElement(option.width-(max+20), 20)
-    elem4.css({'margin-top' : '2px',
-               'margin-left' : max + 20 - (option.graphFont / 2)
+    let elem4 = buildElement(option.width - leftSideOffset, xAxisTextHeight)
+    elem4.css({'margin-top' : axisLineThickness,
+               'margin-left' : leftSideOffset - (option.graphFont / 2)
               });    
     for(let i=0; i<option.xsteps; i++){
       let char = stepSize*i;
-      let div = buildElement(stepWidth, 20, char)      
+      let div = buildElement(stepWidth, xAxisTextHeight, char)      
                 .css({ 'float':'left',                
                        'text-align' : 'left',
                        'font-size' : option.graphFont      
@@ -78,15 +105,15 @@ const drawBarChart = function(data, option, element){
     return xAxis;
   };
 
-  const buildYaxis = function(graphHeight, max){
+  const buildYaxis = function(){
   // y-axis line
-    let elem3 = buildElement(2, graphHeight)
+    let elem3 = buildElement(axisLineThickness, graphHeight)
                 .css({'float':'left',
                       'background' : 'black', 
-                      'margin-left' : '20px'
+                      'margin-left' : yAxisSpacing
                      });
   //labels for y-axis
-    let elem4 = buildElement(max,graphHeight)
+    let elem4 = buildElement(maxWordLength,graphHeight)
                 .css({'float':'left',                         
                     });
   // labels of the each y bar element
@@ -108,13 +135,14 @@ const drawBarChart = function(data, option, element){
     return yAxis;
   }
   
-  const buildGraph = function(max, graphHeight, a, b, c, stepWidth, stepSize, graphHeight){
+  const buildGraph = function(){
+        
+    const leftSideOffset = yAxisSpacing + maxWordLength;
     // set background lines:
-    let graph = buildElement( option.width - (20 + max), graphHeight)
-                .css({'margin-left' : (20 + max),
-                      'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + a + "," + option.backgroundBarColor + " " + b + "," + option.backgroundBarColor + " " + c + ")"
+    let graph = buildElement( option.width - leftSideOffset, graphHeight)
+                .css({'margin-left' : leftSideOffset,
+                      'background': "repeating-linear-gradient( to right, #ffffff, #ffffff " + ticks[0] + "," + option.backgroundBarColor + " " + ticks[1] + "," + option.backgroundBarColor + " " + ticks[2] + ")"
               });
-
     // building the horizontal graph bars
     let h = Math.floor((graphHeight - data.length*option.barSpacing)/data.length);    
     for(let i=0; i<data.length*3; i++){
@@ -125,66 +153,41 @@ const drawBarChart = function(data, option, element){
         data[j]['value'].forEach(function(item){
           sum += item;
         });
-        let bar = buildElement(Math.floor(sum * stepWidth/stepSize)
-                                    ,h)
+        let bar = buildElement(Math.floor(sum * stepWidth/stepSize) ,h)
                     .css({'display':'flex'});
         let offset = 0;
         data[j]['value'].forEach(function(item, index){
-          let partdiv = buildElement(Math.floor(item * stepWidth/stepSize),
-                             h, item )
+          let partdiv = buildElement(Math.floor(item * stepWidth/stepSize), h, item )
                       .css({'background': data[j]['color'][index],
                              'color': data[j]['labelColor'][index],
                              'text-align': option.barLabelPosition,
                              'vertical-align': 'middle',                    
                              'line-height': h + 'px',
-                             'font-size' : option.graphFont,          
+                             'font-size' : option.graphFont                                                     
                         });
           bar.append(partdiv);
         });        
         div.append(bar);
-      }else {        
-         div = buildElement(option.width - (20 + max),
-         option.barSpacing/2);    
-      }     
-      
+      }else {
+        // vertical bar spacing:        
+         div = buildElement(option.width - leftSideOffset, option.barSpacing/2);    
+      }           
       graph.append(div);
     };
     return graph;
   };
-
-  // Horizontal Element scaling:
-  let max = 0;  
-  for(let i=0; i<data.length; i++){
-    dum =measureText(data[i]['barLabel'], option.graphFont);
-    if(dum > max){
-      max = dum;
-    }    
-  }
-  
-  // Vertical element scaling:
-  const titleOffsety = option.titleFont.size; // size of title...
-  const xAxisOffsety = (10+20+25); // ticks + text + title
-  const graphHeight = option.height - titleOffsety - xAxisOffsety;
-  let stepSize = Math.floor(option.xMax/option.xsteps);
-  let stepWidth = Math.floor((option.width - max - 20)/option.xsteps); 
-
-  let k = Math.floor((option.width - (20 + max))/option.xsteps);
-  let a = (k-2) + "px";
-  let b = Math.floor(k/2) + "px";
-  let c = k + "px";
-
   // Global div:
   element.css({
           'width'  : option.width,
           'height' : option.height          
-  });
+        });
   let base = $('<div></<div>');
-  base.append(buildYaxis(graphHeight, max)); 
+  base.append(buildYaxis()); 
   base.append( 
-        buildGraph(max, graphHeight, a, b, c, stepWidth, stepSize, graphHeight)        
+        buildGraph()        
       );
   element.append(buildTitle());
   element.append(base);
-  element.append(buildXaxis(a,b,c,max,stepWidth));
+  element.append(buildXaxis());
 
 };

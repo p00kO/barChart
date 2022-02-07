@@ -1,15 +1,22 @@
-const data = [ {'value': [17,1,3],'color' :['blue', '#ff2277', 'orange'],'labelColor' :['black', 'white','black'], 'barLabel': 'Tim' },
-               {'value': [11,5,4], 'color' :['blue', '#ff2277', 'orange'], 'labelColor' :['black', 'white', 'black'], 'barLabel': 'Larry'},
-               {'value' : [49,7,3], 'color' :['blue', '#ff2277', 'orange'], 'labelColor' :['white', 'black', 'black'], 'barLabel' : 'Cledus'},
-               {'value' : [26,12,3], 'color' :['orange', '#ff2277', 'orange'], 'labelColor' :['black', 'black', 'black'], 'barLabel': 'Ronny'},
-               {'value' : [7,31,3], 'color' :['blue', '#999911', 'orange'], 'labelColor' :['grey', 'black', 'black'], 'barLabel':'Cremi'},
-               {'value' : [9,9,3,11], 'color' :['blue', '#ff2277',, 'orange'], 'labelColor' :[, 'black',,'black'], 'barLabel' : 'Koko'},
-               {'value': [24,22,3], 'color' :['blue', '#335533', '#775577'], 'labelColor' :['black', '#001100', 'black'], 'barLabel': 'PeterPo'}
+const data1 = [ {'value': [17],'color' :['blue'],'labelColor' :['black'], 'barLabel': 'Tim' },
+               {'value': [11], 'color' :['orange'], 'labelColor' :['white'], 'barLabel': 'Larry'},
+               {'value' : [7], 'color' :['#ff2277'], 'labelColor' :['white'], 'barLabel' : 'Cledus'},
+               {'value' : [26], 'color' :['#992299'], 'labelColor' :['black'], 'barLabel': 'Ronny'},
+               {'value' : [31], 'color' :['#999911'], 'labelColor' :['white'], 'barLabel':'Cremi'},               
+              ];
+
+
+const data2 = [ {'value': [17,1,3],'color' :['red','yellow','green'],'labelColor' :['black'], 'barLabel': 'Tim' },
+               {'value': [11,5,4], 'color' :['red','yellow','green'], 'labelColor' :[, , 'black'], 'barLabel': 'Larry'},
+               {'value' : [49,7,3], 'color' :['red','yellow','green'], 'labelColor' :[, ,], 'barLabel' : 'Cledus'},
+               {'value' : [26,12,3], 'color' :['red','yellow','green'], 'labelColor' :[, 'black', ], 'barLabel': 'Ronny'},
+               {'value' : [7,31,3], 'color' :['red','yellow','green'], 'labelColor' :[,'grey', 'black'], 'barLabel':'Cremi'},               
+               {'value': [24,22,3], 'color' :['red','yellow','green'], 'labelColor' :['black',,], 'barLabel': 'Koko'}
               ]; 
 
-const options = {
-                  width: 900,
-                  height: 600,
+const options1 = {
+                  width: 500,
+                  height: 300,
                   barColor: "blue",
                   barSpacing: 4,
                   graphFont: 12,
@@ -18,19 +25,32 @@ const options = {
                   yLableColor: 'green',
                   backgroundBarColor: 'rgb(100,255,255)',
                   titleFont: {size: 24, color: "black"},
-                  title: "Title of the Graph",                  
+                  title: "Saying Thanks!",                  
                   xAxisTitle: 'Average thank you\'s per day',
                   xAxisTitleFont: {size: 24, color: "black"},                  
                   xMax: 60,
                   xsteps: 6
                 };
-let element = $("#graph");
+let element1 = $("#graph");
 
-// const data = [ {'value': [17],'color' :['blue'],'labelColor' :['black'], 'barLabel': 'Tim' },
-//                {'value': [11], 'color' :['blue', '#ff2277', 'orange'], 'labelColor' :['black', 'white', 'black'], 'barLabel': 'Larry'},
-//                {'value' : [7], 'color' :['blue', '#ff2277', 'orange'], 'labelColor' :['white', 'black', 'black'], 'barLabel' : 'Cledus'},
-//                {'value' : [26], 'color' :['orange', '#ff2277', 'orange'], 'labelColor' :['black', 'black', 'black'], 'barLabel': 'Ronny'},
-//                {'value' : [31], 'color' :['blue', '#999911', 'orange'], 'labelColor' :['grey', 'black', 'black'], 'barLabel':'Cremi'},               
-//               ];
+const options2 = {
+  width: 600,
+  height: 300,
+  barColor: "blue",
+  barSpacing: 4,
+  graphFont: 16,
+  barLabelColor: "red",                  
+  barLabelPosition: 'center',
+  yLableColor: 'green',
+  backgroundBarColor: 'rgb(220,220,220)',
+  titleFont: {size: 24, color: "black"},
+  title: "Saying Thanks!",                  
+  xAxisTitle: 'Average thank you\'s per day',
+  xAxisTitleFont: {size: 24, color: "black"},                  
+  xMax: 60,
+  xsteps: 10
+};
 
-drawBarChart(data, options, element);
+let element2 = $("#stackedHorizontalBC");
+drawBarChart(data1, options1, element1);
+drawBarChart(data2, options2, element2);

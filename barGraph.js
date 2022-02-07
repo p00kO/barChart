@@ -35,6 +35,13 @@ const drawBarChart = function(data, option, element){
       .reduce((cur, acc) => acc + cur) * fontSize);
   };
 
+  function getRandomColor(){
+    const r = Math.floor(Math.random()*256);
+    const g = Math.floor(Math.random()*256);
+    const b = Math.floor(Math.random()*256);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+  }
+
   const buildElement = function(w,h, val = ''){
     let elem = $('<div>' +val+ '</div>');
     elem.css({'width' : w,
@@ -157,9 +164,11 @@ const drawBarChart = function(data, option, element){
                     .css({'display':'flex'});
         let offset = 0;
         data[j]['value'].forEach(function(item, index){
+          // random background color if not specified. No label if no color specified
+          let bkgrdColor = (typeof data[j]['color'][index] === "undefined")? getRandomColor() : data[j]['color'][index];
           let partdiv = buildElement(Math.floor(item * stepWidth/stepSize), h, item )
-                      .css({'background': data[j]['color'][index],
-                             'color': data[j]['labelColor'][index],
+                      .css({'background': bkgrdColor, 
+                             'color': (typeof data[j]['labelColor'][index] === "undefined")? bkgrdColor : data[j]['labelColor'][index],
                              'text-align': option.barLabelPosition,
                              'vertical-align': 'middle',                    
                              'line-height': h + 'px',

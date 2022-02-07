@@ -3,16 +3,16 @@ const data = [ {'value': [17,1,3],'color' :['blue', '#ff2277', 'orange'],'labelC
                {'value' : [49,7,3], 'color' :['blue', '#ff2277', 'orange'], 'labelColor' :['white', 'black', 'black'], 'barLabel' : 'Cledus'},
                {'value' : [26,12,3], 'color' :['orange', '#ff2277', 'orange'], 'labelColor' :['black', 'black', 'black'], 'barLabel': 'Ronny'},
                {'value' : [7,31,3], 'color' :['blue', '#999911', 'orange'], 'labelColor' :['grey', 'black', 'black'], 'barLabel':'Cremi'},
-               {'value' : [9,9,3], 'color' :['blue', '#ff2277', 'orange'], 'labelColor' :['black', 'black','black'], 'barLabel' : 'Koko'},
-               {'value': [24,22,3], 'color' :['blue', '#335533', '#335533'], 'labelColor' :['black', '#001100', 'black'], 'barLabel': 'PeterPo'}
+               {'value' : [9,9,3,11], 'color' :['blue', '#ff2277',, 'orange'], 'labelColor' :[, 'black',,'black'], 'barLabel' : 'Koko'},
+               {'value': [24,22,3], 'color' :['blue', '#335533', '#775577'], 'labelColor' :['black', '#001100', 'black'], 'barLabel': 'PeterPo'}
               ]; 
 
 const options = {
-                  width: 600,
-                  height: 300,
+                  width: 900,
+                  height: 600,
                   barColor: "blue",
                   barSpacing: 4,
-                  graphFont: 8,
+                  graphFont: 12,
                   barLabelColor: "red",                  
                   barLabelPosition: 'center',
                   yLableColor: 'green',

@@ -1,8 +1,8 @@
-const data1 = [ {'value': [17],'color' :['blue'],'labelColor' :['black'], 'barLabel': 'Tim' },
-               {'value': [11], 'color' :['orange'], 'labelColor' :['white'], 'barLabel': 'Larry'},
-               {'value' : [7], 'color' :['#ff2277'], 'labelColor' :['white'], 'barLabel' : 'Cledus'},
-               {'value' : [26], 'color' :['#992299'], 'labelColor' :['black'], 'barLabel': 'Ronny'},
-               {'value' : [31], 'color' :['#999911'], 'labelColor' :['white'], 'barLabel':'Cremi'},               
+const data1 = [ {'value': [17],'color' :[],'labelColor' :['black'], 'barLabel': 'Tim' },
+               {'value': [11], 'color' :[], 'labelColor' :['white'], 'barLabel': 'Larry'},
+               {'value' : [7], 'color' :[], 'labelColor' :['white'], 'barLabel' : 'Cledus'},
+               {'value' : [26], 'color' :[], 'labelColor' :['black'], 'barLabel': 'Ronny'},
+               {'value' : [31], 'color' :[], 'labelColor' :['white'], 'barLabel':'Cremi'},               
               ];
 
 
@@ -19,7 +19,7 @@ const options1 = {
                   height: 300,
                   barColor: "blue",
                   barSpacing: 4,
-                  graphFont: 12,
+                  graphFont: 16,
                   barLabelColor: "red",                  
                   barLabelPosition: 'center',
                   yLableColor: 'green',
@@ -45,7 +45,7 @@ const options2 = {
   backgroundBarColor: 'rgb(220,220,220)',
   titleFont: {size: 24, color: "black"},
   title: "Saying Thanks!",                  
-  xAxisTitle: 'Average thank you\'s per day',
+  xAxisTitle: 'Thank you\'s per day',
   xAxisTitleFont: {size: 24, color: "black"},                  
   xMax: 60,
   xsteps: 10

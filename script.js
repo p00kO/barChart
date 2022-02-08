@@ -17,10 +17,8 @@ const data2 = [ {'value': [17,1,3],'color' :['red','yellow','green'],'labelColor
 const options1 = {
                   width: 500,
                   height: 300,
-                  barColor: "blue",
                   barSpacing: 4,
-                  graphFont: 16,
-                  barLabelColor: "red",                  
+                  graphFont: 16,                  
                   barLabelPosition: 'center',
                   yLableColor: 'green',
                   backgroundBarColor: 'rgb(100,255,255)',

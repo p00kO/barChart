@@ -37,6 +37,12 @@ h3{
   padding-top: 2%;
   caption-side : bottom;
 }
+
+#topParagraph{
+  padding-top : 2%;
+  padding-bottom : 2%;
+}
+
 .t0{
   text-align: center;
 }

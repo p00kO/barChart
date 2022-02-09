@@ -4,6 +4,7 @@ This API provides developers with an easy way to add horizontal bar charts to we
 
 ![Bar chart Example Image](/barExample.png)
 
+You can interactive examples [here](https://p00ko.github.io/barChart/).
 ## API Features
 * Easily set desired width and height in pixels
 * Dynamic title allows your users to change it on the webpage
@@ -15,30 +16,37 @@ This API provides developers with an easy way to add horizontal bar charts to we
 
 ## How to use
 To impliment the API, you'll need to include [JQuery](https://jquery.com/). Additionally, you will need to include a reference to the location of the barGraph script in your html source:
-`<script src="barGraph.js"></script>`
+```
+<script src="barGraph.js"></script>
+```
 The function you call to generate a graph has 3 parameters:
-`drawBarChart(data, options, element)`
+```
+drawBarChart(data, options, element)
+```
 The data is the object which contains values you will display in the chart. The options specify how you want to customize the look of the graph and the element is the element on your page which will house the graph.
+
 ### Data 
-`'[ {'value': [1,2,3],'color' :['red','yellow','green'],'labelColor' :['black'], 'barLabel': 'Tim' }' ]`
-The bars in the graph are defined by an array of object called data. the object consists of a `value` key which refers to an array of values which correspond each stacked bar. The `color` key correspond to the color of each bar in the stack and likewise, the `labelColor` corresponds to the color of the label on each bar. If no color is passed for a given label (leaving it 'undefined') that label will not be shown. if a bar color is left 'undefined', it will be assigned a random color. The 'barLabel' is the string that will be added at along the Y-axis next to the bar.
+```
+'[ {'value': [1,2,3],'color' :['red','yellow','green'],'labelColor' :['black'], 'barLabel': 'Tim' }' ]
+```
+The bars in the graph are defined by an array of object called data. The object consists of a `value` key which refers to an array of values defining each stacked bar. The `color` key correspond to the color of each bar in the stack and likewise, the `labelColor` corresponds to the color of the label on each bar. If no color is passed for a given label (leaving it 'undefined') that label will not be shown. If a bar color is left 'undefined', it will be assigned a random color. The 'barLabel' is the string that will be added along the Y-axis next to the bar stack. 
 
 ### Options
-`             {
-                  width: 500,
-                  height: 300,
-                  barSpacing: 4,
-                  graphFont: 16,                  
-                  barLabelPosition: 'center',
-                  yLableColor: 'green',
-                  backgroundBarColor: 'rgb(100,255,255)',
-                  titleFont: {size: 24, color: "black"},
-                  title: "Saying Thanks!",                  
-                  xAxisTitle: 'Average thank you\'s per day',
-                  xAxisTitleFont: {size: 24, color: "black"},                  
-                  xMax: 60,
-                  xsteps: 6
-                }`
+```
+{ width: 500,
+  height: 300,
+  barSpacing: 4,
+  graphFont: 16,                  
+  barLabelPosition: 'center',
+  yLableColor: 'green',
+  backgroundBarColor: 'rgb(100,255,255)',
+  titleFont: {size: 24, color: "black"},
+  title: "Saying Thanks!",                  
+  xAxisTitle: 'Average thank you\'s per day',
+  xAxisTitleFont: {size: 24, color: "black"},                  
+  xMax: 60,
+  xsteps: 6 }
+```
 
 ### Element
     `$("#graph")`

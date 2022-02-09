@@ -33,30 +33,39 @@ The bars in the graph are defined by an array of object called data. The object 
 
 ### Options
 ```
-{ width: 500,
-  height: 300,
-  barSpacing: 4,
-  graphFont: 16,                  
-  barLabelPosition: 'center',
-  yLableColor: 'green',
-  backgroundBarColor: 'rgb(100,255,255)',
-  titleFont: {size: 24, color: "black"},
-  title: "Saying Thanks!",                  
-  xAxisTitle: 'Average thank you\'s per day',
-  xAxisTitleFont: {size: 24, color: "black"},                  
-  xMax: 60,
-  xsteps: 6 }
+{ width: 500,                                             ( px )
+  height: 300,                                            ( px )
+  barSpacing: 4,                                          ( px )
+  graphFont: 16,                                          ( px )
+  barLabelPosition: 'center',                             ( bottom, center, top)
+  yLableColor: 'green',                                   ( any CSS rgb value )
+  backgroundBarColor: 'rgb(100,255,255)',                 ( any CSS rgb value )
+  titleFont: {size: 24, color: "black"},                  ( px // any CSS rgb value )
+  title: "Saying Thanks!",                                ( String )
+  xAxisTitle: 'Average thank you\'s per day',             ( String )
+  xAxisTitleFont: {size: 24, color: "black"},             ( px // any CSS rgb value )
+  xMax: 60,                                               ( max value in bar units )
+  xsteps: 6 }                                             ( x-axis tick spacing )
 ```
+The API allows you to set graph `option` to get your graph looking just the way you want on your page. The `width` and `height` specify the size of the graph in pixels (px) that will be passed to the `element` you specified. The `barSpacing` is the distance bewtween bars in px. The graph font specifies the size of the fonts of all text on the graph such as lables, y-axis Labels and x-axis numbers. The `barLabelPosition` sets the postion of the label on the bar. The `yLableColor` sets the color of the barLabels strings, while `backgroundBarColor` set the color of the repeating lines on the background of the graph. The `titleFont` and `title` specify the look and content of the graph title. The `xAxisTitle`, `xAxisTitleFont`, `xMax` and `xsteps` define the x-axis title look, and length and tick spacing.
 
 ### Element
-    `$("#graph")`
+```
+    $("#graph")
+```    
 The element passed need to be a JQuery element, usually a `<div>` where you want to put the bar chart on the page.
 
 ## Known Issues
-* if the length of the bars are larger than the max value of the graph, it can break the graph
+* If the length of the bars are larger than the xMax value of the graph, it can break the graph
+* All strings are assumed to occupy only 1 line. Multiline text may lead to unexpected behaviour.
+* Setting width/height (less 150px) to very small values can break graph.
+* Bars may be slighly shifted by 1 or 2 pixels, causing a slight misalignment with x-axis ticks. This is due to integer rounding.
+
 
 ## Upcomming Feature
-* teleportation
+* Additional color customization
+* Interactive bars such animations on hover and pop-up text on click
+* Dynamic x-axis and y-axis scaling
 
 ## References
 * [JQuery](https://jquery.com/)

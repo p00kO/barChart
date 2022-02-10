@@ -33,19 +33,19 @@ The bars in the graph are defined by an array of object called data. The object 
 
 ### Options
 ```
-{ width: 500, ( px )
-height: 300, ( px )
-barSpacing: 4, ( px )
-graphFont: 16, ( px )
-barLabelPosition: 'center', ( bottom, center, top)
-yLableColor: 'green', ( any CSS rgb value )
-backgroundBarColor: 'rgb(100,255,255)', ( any CSS rgb value )
-titleFont: {size: 24, color: "black"}, ( px // any CSS rgb value )
-title: "Saying Thanks!", ( String )
-xAxisTitle: 'Average thank you\'s per day', ( String )
-xAxisTitleFont: {size: 24, color: "black"}, ( px // any CSS rgb value )
-xMax: 60, ( max value in bar units )
-xsteps: 6 } ( x-axis tick spacing )
+{ width: 500,                                             ( px )
+height: 300,                                              ( px )
+barSpacing: 4,                                            ( px )
+graphFont: 16,                                            ( px )
+barLabelPosition: 'center',                               ( bottom, center, top)
+yLableColor: 'green',                                     ( any CSS rgb value )
+backgroundBarColor: 'rgb(100,255,255)',                   ( any CSS rgb value )
+titleFont: {size: 24, color: "black"},                    ( px // any CSS rgb value )
+title: "Saying Thanks!",                                  ( String )
+xAxisTitle: 'Average thank you\'s per day',               ( String )
+xAxisTitleFont: {size: 24, color: "black"},               ( px // any CSS rgb value )
+xMax: 60,                                                 ( max value in bar units )
+xsteps: 6 }                                               ( x-axis tick spacing )
 ```
 The API allows you to set graph `option` to get your graph looking just the way you want on your page. The `width` and `height` specify the size of the graph in pixels (px) that will be passed to the `element` you specified. The `barSpacing` is the distance between bars in px. The graph font specifies the size of the fonts of all text on the graph such as labels, y-axis labels and x-axis numbers. The `barLabelPosition` sets the position of the label on the bar. The `yLableColor` sets the color of the barLabels strings, while `backgroundBarColor` set the color of the repeating lines on the background of the graph. The `titleFont` and `title` specify the look and content of the graph title. The `xAxisTitle`, `xAxisTitleFont`, `xMax` and `xsteps` define the x-axis title look, and length and tick spacing.
 
